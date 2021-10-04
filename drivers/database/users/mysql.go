@@ -55,8 +55,20 @@ func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data users.Domain
 	return InsertUser.ToDomain(), nil
 }
 
-func (DB *MysqlUserRepository) UpdateUser(ctx context.Context, id int) (users.Domain, error) {
-	var CurrentUser Users
+func (DB *MysqlUserRepository) UpdateUser(ctx context.Context, data users.Domain, id int) (users.Domain, error) {
+	Currentuser := FromDomain(data)
+	result := DB.Conn.Where("id = ?", id).Updates(Currentuser).First(&Currentuser)
+	if result.Error != nil {
+		return users.Domain{}, result.Error
+	}
+	return Currentuser.ToDomain(), nil
+}
 
-	return CurrentUser.ToDomain(), nil
+func (DB *MysqlUserRepository) DeleteUser(ctx context.Context, id int) (users.Domain, error) {
+	var Currentuser Users
+	result := DB.Conn.Where("id = ?", id).Delete(&Currentuser)
+	if result.Error != nil {
+		return users.Domain{}, result.Error
+	}
+	return Currentuser.ToDomain(), nil
 }

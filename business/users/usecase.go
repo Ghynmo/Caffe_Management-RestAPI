@@ -62,6 +62,20 @@ func (uc *UserUseCase) CreateUserController(ctx context.Context, data Domain) (D
 	return user, nil
 }
 
-func (uc *UserUseCase) UpdateUserController(ctx context.Context, id int) (Domain, error) {
-	return Domain{}, nil
+func (uc *UserUseCase) UpdateUserController(ctx context.Context, data Domain, id int) (Domain, error) {
+	user, err := uc.Repo.UpdateUser(ctx, data, id)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	return user, nil
+}
+
+func (uc *UserUseCase) DeleteUserController(ctx context.Context, id int) (Domain, error) {
+	user, err := uc.Repo.DeleteUser(ctx, id)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	return user, nil
 }

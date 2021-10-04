@@ -24,7 +24,8 @@ type UseCase interface {
 	GetUserController(ctx context.Context) ([]Domain, error)
 	GetUserByIDController(ctx context.Context, id int) (Domain, error)
 	CreateUserController(ctx context.Context, data Domain) (Domain, error)
-	UpdateUserController(ctx context.Context, id int) (Domain, error)
+	UpdateUserController(ctx context.Context, data Domain, id int) (Domain, error)
+	DeleteUserController(ctx context.Context, id int) (Domain, error)
 }
 
 type Repository interface {
@@ -32,5 +33,6 @@ type Repository interface {
 	GetUser(ctx context.Context) ([]Domain, error)
 	GetUserByID(ctx context.Context, id int) (Domain, error)
 	CreateUser(ctx context.Context, data Domain) (Domain, error)
-	UpdateUser(ctx context.Context, id int) (Domain, error)
+	UpdateUser(ctx context.Context, data Domain, id int) (Domain, error)
+	DeleteUser(ctx context.Context, id int) (Domain, error)
 }

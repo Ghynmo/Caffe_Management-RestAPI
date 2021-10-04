@@ -68,3 +68,28 @@ func (handler UserController) CreateUserController(c echo.Context) error {
 	}
 	return controllers.NewSuccessResponse(c, responses.CreateFromDomain(user))
 }
+
+func (handler UserController) UpdateUserController(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	userInsert := users.Domain{}
+	c.Bind(&userInsert)
+
+	ctx := c.Request().Context()
+	user, err := handler.UserUseCase.UpdateUserController(ctx, userInsert, id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, user)
+}
+
+func (handler UserController) DeleteUserController(c echo.Context) error {
+	id, _ := strconv.Atoi(c.QueryParam("id"))
+
+	ctx := c.Request().Context()
+	user, err := handler.UserUseCase.DeleteUserController(ctx, id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, user)
+}

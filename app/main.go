@@ -3,13 +3,15 @@ package main
 import (
 	"log"
 	"miniProject/app/routes"
-	_userDb "miniProject/drivers/database/users"
 	_mysqlDriver "miniProject/drivers/mysql"
 	"time"
 
 	_userUseCase "miniProject/business/users"
 	_userController "miniProject/controllers/users"
 	_userRepository "miniProject/drivers/database/users"
+
+	_table_detailsRepository "miniProject/drivers/database/table_details"
+	_transactionRepository "miniProject/drivers/database/transactions"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -25,7 +27,10 @@ func init() {
 }
 
 func DbMigrate(db *gorm.DB) {
-	db.AutoMigrate(&_userDb.Users{})
+	db.AutoMigrate(&_userRepository.Users{})
+	db.AutoMigrate(&_table_detailsRepository.TableDetails{})
+	db.AutoMigrate(&_transactionRepository.Transactions{})
+
 }
 
 func main() {

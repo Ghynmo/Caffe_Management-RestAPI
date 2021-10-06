@@ -17,8 +17,8 @@ func NewInventoryUseCase(repo Repository, timeout time.Duration) UseCase {
 	}
 }
 
-func (uc *InventoryUseCase) GetInventoryController(ctx context.Context) ([]Domain, error) {
-	user, err := uc.Repo.GetInventory(ctx)
+func (uc *InventoryUseCase) GetInventoriesController(ctx context.Context) ([]Domain, error) {
+	user, err := uc.Repo.GetInventories(ctx)
 	if err != nil {
 		return []Domain{}, err
 	}

@@ -1,48 +1,45 @@
 package inventories
 
 import (
+	"miniProject/business/inventories"
+
 	"gorm.io/gorm"
 )
 
-type Inventorys struct {
+type Inventories struct {
 	gorm.Model
-	RecipeID   int
-	MaterialID int
-	Quantity   int
+	Name        int
+	Stock       int
+	MeasureType string
+	UnitPrice   int
 }
 
-// func (inventory *Inventorys) ToDomain() inventories.Domain {
-// 	return inventories.Domain{
+func (inventory *Inventories) ToDomain() inventories.Domain {
+	return inventories.Domain{
+		ID:          inventory.ID,
+		Name:        inventory.Name,
+		Stock:       inventory.Stock,
+		MeasureType: inventory.MeasureType,
+		UnitPrice:   inventory.UnitPrice,
+		CreatedAt:   inventory.CreatedAt,
+		UpdatedAt:   inventory.CreatedAt,
+	}
+}
 
-// 		ID:            inventory.ID,
-// 		UserID:        inventory.UserID,
-// 		TableDetailID: inventory.TableDetailID,
-// 		Payment:       inventory.Payment,
-// 		Price:         inventory.Price,
-// 		Status:        inventory.Status,
-// 		CreatedAt:     inventory.CreatedAt,
-// 		UpdatedAt:     inventory.CreatedAt,
-// 	}
-// }
+func FromDomain(domain inventories.Domain) Inventories {
+	return Inventories{
+		Name:        domain.Name,
+		Stock:       domain.Stock,
+		MeasureType: domain.MeasureType,
+		UnitPrice:   domain.UnitPrice,
+	}
+}
 
-// func FromDomain(domain inventories.Domain) Inventorys {
-// 	return Inventorys{
-// 		ID:            domain.ID,
-// 		UserID:        domain.UserID,
-// 		TableDetailID: domain.TableDetailID,
-// 		Payment:       domain.Payment,
-// 		Price:         domain.Price,
-// 		Status:        domain.Status,
-// 		CreatedAt:     domain.CreatedAt,
-// 		UpdatedAt:     domain.CreatedAt,
-// 	}
-// }
+func ToDomains(u []Inventories) []inventories.Domain {
+	var Domains []inventories.Domain
 
-// func ToDomains(u []Inventorys) []inventories.Domain {
-// 	var Domains []inventories.Domain
-
-// 	for _, val := range u {
-// 		Domains = append(Domains, val.ToDomain())
-// 	}
-// 	return Domains
-// }
+	for _, val := range u {
+		Domains = append(Domains, val.ToDomain())
+	}
+	return Domains
+}

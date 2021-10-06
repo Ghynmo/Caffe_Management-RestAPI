@@ -1,47 +1,36 @@
 package table_details
 
 import (
+	"miniProject/business/table_details"
+
 	"gorm.io/gorm"
 )
 
 type TableDetails struct {
 	gorm.Model
-	Capacity int
-	Status   bool
+	TotalCapacity int
+	Status        bool
 }
 
-// func (transaction *TableDetails) ToDomain() transactions.Domain {
-// 	return transactions.Domain{
+func (table_detail *TableDetails) ToDomain() table_details.Domain {
+	return table_details.Domain{
+		TotalCapacity: table_detail.TotalCapacity,
+		Status:        table_detail.Status,
+	}
+}
 
-// 		ID:            transaction.ID,
-// 		UserID:        transaction.UserID,
-// 		TableDetailID: transaction.TableDetailID,
-// 		Payment:       transaction.Payment,
-// 		Price:         transaction.Price,
-// 		Status:        transaction.Status,
-// 		CreatedAt:     transaction.CreatedAt,
-// 		UpdatedAt:     transaction.CreatedAt,
-// 	}
-// }
+func FromDomain(domain table_details.Domain) TableDetails {
+	return TableDetails{
+		TotalCapacity: domain.TotalCapacity,
+		Status:        domain.Status,
+	}
+}
 
-// func FromDomain(domain transactions.Domain) TableDetails {
-// 	return TableDetails{
-// 		ID:            domain.ID,
-// 		UserID:        domain.UserID,
-// 		TableDetailID: domain.TableDetailID,
-// 		Payment:       domain.Payment,
-// 		Price:         domain.Price,
-// 		Status:        domain.Status,
-// 		CreatedAt:     domain.CreatedAt,
-// 		UpdatedAt:     domain.CreatedAt,
-// 	}
-// }
+func ToDomains(u []TableDetails) []table_details.Domain {
+	var Domains []table_details.Domain
 
-// func ToDomains(u []TableDetails) []transactions.Domain {
-// 	var Domains []transactions.Domain
-
-// 	for _, val := range u {
-// 		Domains = append(Domains, val.ToDomain())
-// 	}
-// 	return Domains
-// }
+	for _, val := range u {
+		Domains = append(Domains, val.ToDomain())
+	}
+	return Domains
+}

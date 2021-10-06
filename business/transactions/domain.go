@@ -6,29 +6,26 @@ import (
 )
 
 type Domain struct {
-	ID            int
-	TransactionID int
-	TableDetailID int
+	ID            uint
+	UserID        uint
+	TableDetailID uint
 	Payment       int
 	Price         int
 	Status        bool
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
-	DeletedAt     time.Time
 }
 
 type UseCase interface {
-	GetTransactionController(ctx context.Context) ([]Domain, error)
-	GetTransactionByIDController(ctx context.Context, id int) (Domain, error)
+	GetTransactionsController(ctx context.Context) ([]Domain, error)
+	GetTransactionByIDController(ctx context.Context, id uint) (Domain, error)
 	CreateTransactionController(ctx context.Context, data Domain) (Domain, error)
-	UpdateTransactionController(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTransactionController(ctx context.Context, id int) (Domain, error)
+	UpdateTransactionController(ctx context.Context, data Domain, id uint) (Domain, error)
 }
 
 type Repository interface {
-	GetTransaction(ctx context.Context) ([]Domain, error)
-	GetTransactionByID(ctx context.Context, id int) (Domain, error)
+	GetTransactions(ctx context.Context) ([]Domain, error)
+	GetTransactionByID(ctx context.Context, id uint) (Domain, error)
 	CreateTransaction(ctx context.Context, data Domain) (Domain, error)
-	UpdateTransaction(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTransaction(ctx context.Context, id int) (Domain, error)
+	UpdateTransaction(ctx context.Context, data Domain, id uint) (Domain, error)
 }

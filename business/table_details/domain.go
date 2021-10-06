@@ -6,26 +6,23 @@ import (
 )
 
 type Domain struct {
-	ID        int
-	Capacity  int
-	Status    bool
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt time.Time
+	ID            uint
+	TotalCapacity int
+	Status        bool
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type UseCase interface {
-	GetTableDetailController(ctx context.Context) ([]Domain, error)
-	GetTableDetailByIDController(ctx context.Context, id int) (Domain, error)
+	GetTableDetailsController(ctx context.Context) ([]Domain, error)
+	GetTableDetailByIDController(ctx context.Context, id uint) (Domain, error)
 	CreateTableDetailController(ctx context.Context, data Domain) (Domain, error)
-	UpdateTableDetailController(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTableDetailController(ctx context.Context, id int) (Domain, error)
+	UpdateTableDetailController(ctx context.Context, data Domain, id uint) (Domain, error)
 }
 
 type Repository interface {
-	GetTableDetail(ctx context.Context) ([]Domain, error)
-	GetTableDetailByID(ctx context.Context, id int) (Domain, error)
+	GetTableDetails(ctx context.Context) ([]Domain, error)
+	GetTableDetailByID(ctx context.Context, id uint) (Domain, error)
 	CreateTableDetail(ctx context.Context, data Domain) (Domain, error)
-	UpdateTableDetail(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTableDetail(ctx context.Context, id int) (Domain, error)
+	UpdateTableDetail(ctx context.Context, data Domain, id uint) (Domain, error)
 }

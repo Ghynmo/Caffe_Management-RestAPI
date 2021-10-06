@@ -2,28 +2,30 @@ package tables
 
 import (
 	"context"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Domain struct {
-	gorm.Model
-	Capacity int
-	Status   bool
+	ID        uint
+	Capacity  int
+	Status    bool
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 type UseCase interface {
-	GetTableController(ctx context.Context) ([]Domain, error)
-	GetTableByIDController(ctx context.Context, id int) (Domain, error)
+	GetTablesController(ctx context.Context) ([]Domain, error)
+	GetTableByIDController(ctx context.Context, id uint) (Domain, error)
 	CreateTableController(ctx context.Context, data Domain) (Domain, error)
-	UpdateTableController(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTableController(ctx context.Context, id int) (Domain, error)
+	UpdateTableController(ctx context.Context, data Domain, id uint) (Domain, error)
+	DeleteTableController(ctx context.Context, id uint) (Domain, error)
 }
 
 type Repository interface {
-	GetTable(ctx context.Context) ([]Domain, error)
-	GetTableByID(ctx context.Context, id int) (Domain, error)
+	GetTables(ctx context.Context) ([]Domain, error)
+	GetTableByID(ctx context.Context, id uint) (Domain, error)
 	CreateTable(ctx context.Context, data Domain) (Domain, error)
-	UpdateTable(ctx context.Context, data Domain, id int) (Domain, error)
-	DeleteTable(ctx context.Context, id int) (Domain, error)
+	UpdateTable(ctx context.Context, data Domain, id uint) (Domain, error)
+	DeleteTable(ctx context.Context, id uint) (Domain, error)
 }

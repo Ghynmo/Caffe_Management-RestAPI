@@ -8,7 +8,7 @@ import (
 type Domain struct {
 	ID          uint
 	Name        int
-	Measure     int
+	Stock       int
 	MeasureType string
 	UnitPrice   int
 	CreatedAt   time.Time
@@ -16,7 +16,7 @@ type Domain struct {
 }
 
 type UseCase interface {
-	GetInventoryController(ctx context.Context) ([]Domain, error)
+	GetInventoriesController(ctx context.Context) ([]Domain, error)
 	GetInventoryByIDController(ctx context.Context, id int) (Domain, error)
 	CreateInventoryController(ctx context.Context, data Domain) (Domain, error)
 	UpdateInventoryController(ctx context.Context, data Domain, id int) (Domain, error)
@@ -24,7 +24,7 @@ type UseCase interface {
 }
 
 type Repository interface {
-	GetInventory(ctx context.Context) ([]Domain, error)
+	GetInventories(ctx context.Context) ([]Domain, error)
 	GetInventoryByID(ctx context.Context, id int) (Domain, error)
 	CreateInventory(ctx context.Context, data Domain) (Domain, error)
 	UpdateInventory(ctx context.Context, data Domain, id int) (Domain, error)

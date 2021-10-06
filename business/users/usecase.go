@@ -27,6 +27,12 @@ func (uc *UserUseCase) Login(ctx context.Context, email string, password string)
 		return Domain{}, errors.New("password empty")
 	}
 
+	// var err error
+	// password, err = encrypt.Hash(password)
+	// if err != nil {
+	// 	return Domain{}, nil
+	// }
+
 	user, err := uc.Repo.Login(ctx, email, password)
 	if err != nil {
 		return Domain{}, err

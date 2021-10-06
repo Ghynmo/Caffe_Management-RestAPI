@@ -7,68 +7,48 @@ import (
 	"gorm.io/gorm"
 )
 
-type MysqlTableDetailRepository struct {
+type MysqlTable_detailRepository struct {
 	Conn *gorm.DB
 }
 
 func NewMysqlTableDetailRepository(conn *gorm.DB) table_details.Repository {
-	return &MysqlTableDetailRepository{
+	return &MysqlTable_detailRepository{
 		Conn: conn,
 	}
 }
 
-func (DB *MysqlTableDetailRepository) GetTableDetail(ctx context.Context) ([]table_details.Domain, error) {
-	return []table_details.Domain{}, nil
-
-	// var CurrentTableDetail []TableDetail
-	// result := DB.Conn.Find(&CurrentTableDetail)
-	// if result.Error != nil {
-	// 	return []table_details.Domain{}, result.Error
-	// }
-	// return ToDomains(CurrentTableDetail), nil
+func (DB *MysqlTable_detailRepository) GetTableDetails(ctx context.Context) ([]table_details.Domain, error) {
+	var CurrentTable_detail []TableDetails
+	result := DB.Conn.Find(&CurrentTable_detail)
+	if result.Error != nil {
+		return []table_details.Domain{}, result.Error
+	}
+	return ToDomains(CurrentTable_detail), nil
 }
 
-func (DB *MysqlTableDetailRepository) GetTableDetailByID(ctx context.Context, id int) (table_details.Domain, error) {
-	return table_details.Domain{}, nil
-
-	// var Currenttransaction TableDetail
-	// result := DB.Conn.Where("id = ?", id).First(&Currenttransaction)
-	// if result.Error != nil {
-	// 	return table_details.Domain{}, result.Error
-	// }
-	// return Currenttransaction.ToDomain(), nil
+func (DB *MysqlTable_detailRepository) GetTableDetailByID(ctx context.Context, id uint) (table_details.Domain, error) {
+	var Currenttable_detail TableDetails
+	result := DB.Conn.Where("id = ?", id).First(&Currenttable_detail)
+	if result.Error != nil {
+		return table_details.Domain{}, result.Error
+	}
+	return Currenttable_detail.ToDomain(), nil
 }
 
-func (DB *MysqlTableDetailRepository) CreateTableDetail(ctx context.Context, data table_details.Domain) (table_details.Domain, error) {
-	return table_details.Domain{}, nil
-
-	// InsertTableDetail := FromDomain(data)
-	// result := DB.Conn.Create(&InsertTableDetail)
-	// if result.Error != nil {
-	// 	return table_details.Domain{}, result.Error
-	// }
-
-	// return InsertTableDetail.ToDomain(), nil
+func (DB *MysqlTable_detailRepository) CreateTableDetail(ctx context.Context, data table_details.Domain) (table_details.Domain, error) {
+	InsertTable_detail := FromDomain(data)
+	result := DB.Conn.Create(&InsertTable_detail)
+	if result.Error != nil {
+		return table_details.Domain{}, result.Error
+	}
+	return InsertTable_detail.ToDomain(), nil
 }
 
-func (DB *MysqlTableDetailRepository) UpdateTableDetail(ctx context.Context, data table_details.Domain, id int) (table_details.Domain, error) {
-	return table_details.Domain{}, nil
-
-	// Currenttransaction := FromDomain(data)
-	// result := DB.Conn.Where("id = ?", id).Updates(Currenttransaction).First(&Currenttransaction)
-	// if result.Error != nil {
-	// 	return table_details.Domain{}, result.Error
-	// }
-	// return Currenttransaction.ToDomain(), nil
-}
-
-func (DB *MysqlTableDetailRepository) DeleteTableDetail(ctx context.Context, id int) (table_details.Domain, error) {
-	return table_details.Domain{}, nil
-
-	// var Currenttransaction TableDetail
-	// result := DB.Conn.Where("id = ?", id).Delete(&Currenttransaction)
-	// if result.Error != nil {
-	// 	return table_details.Domain{}, result.Error
-	// }
-	// return Currenttransaction.ToDomain(), nil
+func (DB *MysqlTable_detailRepository) UpdateTableDetail(ctx context.Context, data table_details.Domain, id uint) (table_details.Domain, error) {
+	Currenttable_detail := FromDomain(data)
+	result := DB.Conn.Where("id = ?", id).Updates(Currenttable_detail).First(&Currenttable_detail)
+	if result.Error != nil {
+		return table_details.Domain{}, result.Error
+	}
+	return Currenttable_detail.ToDomain(), nil
 }

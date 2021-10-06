@@ -17,8 +17,8 @@ func NewTableDetailUseCase(repo Repository, timeout time.Duration) UseCase {
 	}
 }
 
-func (uc *TableDetailUseCase) GetTableDetailController(ctx context.Context) ([]Domain, error) {
-	user, err := uc.Repo.GetTableDetail(ctx)
+func (uc *TableDetailUseCase) GetTableDetailsController(ctx context.Context) ([]Domain, error) {
+	user, err := uc.Repo.GetTableDetails(ctx)
 	if err != nil {
 		return []Domain{}, err
 	}
@@ -26,7 +26,7 @@ func (uc *TableDetailUseCase) GetTableDetailController(ctx context.Context) ([]D
 	return user, nil
 }
 
-func (uc *TableDetailUseCase) GetTableDetailByIDController(ctx context.Context, id int) (Domain, error) {
+func (uc *TableDetailUseCase) GetTableDetailByIDController(ctx context.Context, id uint) (Domain, error) {
 	user, err := uc.Repo.GetTableDetailByID(ctx, id)
 	if err != nil {
 		return Domain{}, err
@@ -44,17 +44,8 @@ func (uc *TableDetailUseCase) CreateTableDetailController(ctx context.Context, d
 	return user, nil
 }
 
-func (uc *TableDetailUseCase) UpdateTableDetailController(ctx context.Context, data Domain, id int) (Domain, error) {
+func (uc *TableDetailUseCase) UpdateTableDetailController(ctx context.Context, data Domain, id uint) (Domain, error) {
 	user, err := uc.Repo.UpdateTableDetail(ctx, data, id)
-	if err != nil {
-		return Domain{}, err
-	}
-
-	return user, nil
-}
-
-func (uc *TableDetailUseCase) DeleteTableDetailController(ctx context.Context, id int) (Domain, error) {
-	user, err := uc.Repo.DeleteTableDetail(ctx, id)
 	if err != nil {
 		return Domain{}, err
 	}

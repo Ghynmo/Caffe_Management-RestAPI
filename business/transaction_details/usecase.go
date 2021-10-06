@@ -17,8 +17,8 @@ func NewTransactionDetailUseCase(repo Repository, timeout time.Duration) UseCase
 	}
 }
 
-func (uc *TransactionDetailUseCase) GetTransactionDetailController(ctx context.Context) ([]Domain, error) {
-	user, err := uc.Repo.GetTransactionDetail(ctx)
+func (uc *TransactionDetailUseCase) GetTransactionDetailsController(ctx context.Context) ([]Domain, error) {
+	user, err := uc.Repo.GetTransactionDetails(ctx)
 	if err != nil {
 		return []Domain{}, err
 	}
@@ -26,7 +26,7 @@ func (uc *TransactionDetailUseCase) GetTransactionDetailController(ctx context.C
 	return user, nil
 }
 
-func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx context.Context, id int) (Domain, error) {
+func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx context.Context, id uint) (Domain, error) {
 	user, err := uc.Repo.GetTransactionDetailByID(ctx, id)
 	if err != nil {
 		return Domain{}, err
@@ -44,17 +44,8 @@ func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx contex
 	return user, nil
 }
 
-func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id int) (Domain, error) {
+func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id uint) (Domain, error) {
 	user, err := uc.Repo.UpdateTransactionDetail(ctx, data, id)
-	if err != nil {
-		return Domain{}, err
-	}
-
-	return user, nil
-}
-
-func (uc *TransactionDetailUseCase) DeleteTransactionDetailController(ctx context.Context, id int) (Domain, error) {
-	user, err := uc.Repo.DeleteTransactionDetail(ctx, id)
 	if err != nil {
 		return Domain{}, err
 	}

@@ -1,48 +1,42 @@
 package transaction_details
 
 import (
+	trDetails "miniProject/business/transaction_details"
+
 	"gorm.io/gorm"
 )
 
-type Transactions struct {
+type TransactionDetails struct {
 	gorm.Model
-	TransactionID int
-	MenuID        int
+	TransactionID uint
+	MenuID        uint
 	Quantity      int
 }
 
-// func (transaction *Transactions) ToDomain() transactions.Domain {
-// 	return transactions.Domain{
+func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
+	return trDetails.Domain{
+		ID:            trDetail.ID,
+		TransactionID: trDetail.TransactionID,
+		MenuID:        trDetail.MenuID,
+		Quantity:      trDetail.Quantity,
+		CreatedAt:     trDetail.CreatedAt,
+		UpdatedAt:     trDetail.UpdatedAt,
+	}
+}
 
-// 		ID:            transaction.ID,
-// 		UserID:        transaction.UserID,
-// 		TableDetailID: transaction.TableDetailID,
-// 		Payment:       transaction.Payment,
-// 		Price:         transaction.Price,
-// 		Status:        transaction.Status,
-// 		CreatedAt:     transaction.CreatedAt,
-// 		UpdatedAt:     transaction.CreatedAt,
-// 	}
-// }
+func FromDomain(domain trDetails.Domain) TransactionDetails {
+	return TransactionDetails{
+		TransactionID: domain.TransactionID,
+		MenuID:        domain.MenuID,
+		Quantity:      domain.Quantity,
+	}
+}
 
-// func FromDomain(domain transactions.Domain) Transactions {
-// 	return Transactions{
-// 		ID:            domain.ID,
-// 		UserID:        domain.UserID,
-// 		TableDetailID: domain.TableDetailID,
-// 		Payment:       domain.Payment,
-// 		Price:         domain.Price,
-// 		Status:        domain.Status,
-// 		CreatedAt:     domain.CreatedAt,
-// 		UpdatedAt:     domain.CreatedAt,
-// 	}
-// }
+func ToDomains(u []TransactionDetails) []trDetails.Domain {
+	var Domains []trDetails.Domain
 
-// func ToDomains(u []Transactions) []transactions.Domain {
-// 	var Domains []transactions.Domain
-
-// 	for _, val := range u {
-// 		Domains = append(Domains, val.ToDomain())
-// 	}
-// 	return Domains
-// }
+	for _, val := range u {
+		Domains = append(Domains, val.ToDomain())
+	}
+	return Domains
+}

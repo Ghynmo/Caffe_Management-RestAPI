@@ -2,6 +2,7 @@ package transactions
 
 import (
 	"context"
+	"fmt"
 	"miniProject/business/transactions"
 
 	"gorm.io/gorm"
@@ -17,13 +18,14 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Repository {
 	}
 }
 
-func (DB *MysqlTransactionRepository) GetTransactions(ctx context.Context) ([]transactions.Domain, error) {
-	var CurrentTransaction []Transactions
-	result := DB.Conn.Find(&CurrentTransaction)
+func (DB *MysqlTransactionRepository) BuyTransaction(ctx context.Context, data transactions.Domain) (transactions.Domain, error) {
+	CurrentTransaction := FromDomain(data)
+	fmt.Println(CurrentTransaction)
+	result := DB.Conn.Create(&CurrentTransaction)
 	if result.Error != nil {
-		return []transactions.Domain{}, result.Error
+		return transactions.Domain{}, result.Error
 	}
-	return ToDomains(CurrentTransaction), nil
+	return CurrentTransaction.ToDomain(), nil
 }
 
 func (DB *MysqlTransactionRepository) GetTransactionByID(ctx context.Context, id uint) (transactions.Domain, error) {

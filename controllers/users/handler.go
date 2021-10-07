@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"miniProject/business/users"
 	"miniProject/controllers"
 	"miniProject/controllers/users/request"
@@ -59,7 +60,7 @@ func (handler UserController) GetUserByIDController(c echo.Context) error {
 func (handler UserController) CreateUserController(c echo.Context) error {
 	userInsert := users.Domain{}
 	c.Bind(&userInsert)
-
+	fmt.Println(userInsert)
 	ctx := c.Request().Context()
 
 	user, err := handler.UserUseCase.CreateUserController(ctx, userInsert)

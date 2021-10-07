@@ -1,19 +1,19 @@
 package responses
 
-import "miniProject/business/users"
+import "miniProject/business/inventories"
 
-type UserInsert struct {
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Address string `json:"address"`
-	Phone   string `json:"phone"`
+type InventoryInsert struct {
+	Name        string `json:"name"`
+	Stock       int    `json:"stock"`
+	MeasureType string `json:"measure_type"`
+	UnitPrice   int    `json:"unit_price"`
 }
 
-func CreateFromDomain(domain users.Domain) UserInsert {
-	return UserInsert{
-		Name:    domain.Name,
-		Email:   domain.Email,
-		Address: domain.Address,
-		Phone:   domain.Phone,
+func CreateFromDomain(domain inventories.Domain) InventoryInsert {
+	return InventoryInsert{
+		Name:        domain.Name,
+		Stock:       domain.Stock,
+		MeasureType: domain.MeasureType,
+		UnitPrice:   domain.UnitPrice,
 	}
 }

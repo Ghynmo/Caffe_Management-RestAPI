@@ -3,16 +3,19 @@ package users
 import (
 	"context"
 	"errors"
+	"miniProject/app/middlewares"
 	"time"
 )
 
 type UserUseCase struct {
+	ConfigJWT      middlewares.ConfigJwt
 	Repo           Repository
 	contextTimeout time.Duration
 }
 
-func NewUserUseCase(repo Repository, timeout time.Duration) UseCase {
+func NewUserUseCase(repo Repository, timeout time.Duration, jwtconfig middlewares.ConfigJwt) UseCase {
 	return &UserUseCase{
+		ConfigJWT:      jwtconfig,
 		Repo:           repo,
 		contextTimeout: timeout,
 	}
@@ -34,6 +37,15 @@ func (uc *UserUseCase) Login(ctx context.Context, email string, password string)
 	// }
 
 	user, err := uc.Repo.Login(ctx, email, password)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	// if !(encrypt.ValidateHash(password, user.Password)) {
+	// 	return Domain{}, errors.New("wrong password")
+	// }
+
+	user.Token, err = uc.ConfigJWT.GenerateToken(uint(user.ID))
 	if err != nil {
 		return Domain{}, err
 	}

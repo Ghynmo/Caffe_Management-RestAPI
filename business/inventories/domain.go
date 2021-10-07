@@ -7,7 +7,7 @@ import (
 
 type Domain struct {
 	ID          uint
-	Name        int
+	Name        string
 	Stock       int
 	MeasureType string
 	UnitPrice   int

@@ -2,6 +2,7 @@ package users
 
 import (
 	"miniProject/business/users"
+	// "miniProject/drivers/database/transactions"
 
 	"gorm.io/gorm"
 )
@@ -15,6 +16,7 @@ type Users struct {
 	Address  string
 	Phone    string
 	Point    int
+	// Transactions []transactions.Transactions `gorm:"foreignKey:UserID"`
 }
 
 func (user *Users) ToDomain() users.Domain {

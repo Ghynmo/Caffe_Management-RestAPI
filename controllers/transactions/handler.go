@@ -1,6 +1,7 @@
 package transactions
 
 import (
+	"fmt"
 	"miniProject/business/transactions"
 	"miniProject/controllers"
 	"net/http"
@@ -19,10 +20,12 @@ func NewTransactionController(transactionUseCase transactions.UseCase) *Transact
 	}
 }
 
-func (handler TransactionController) GetTransactionsController(c echo.Context) error {
-
+func (handler TransactionController) BuyTransactionController(c echo.Context) error {
+	DataRequest := transactions.Domain{}
+	c.Bind(&DataRequest)
+	fmt.Println(DataRequest)
 	ctx := c.Request().Context()
-	transaction, err := handler.TransactionUseCase.GetTransactionsController(ctx)
+	transaction, err := handler.TransactionUseCase.BuyTransactionController(ctx, DataRequest)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}

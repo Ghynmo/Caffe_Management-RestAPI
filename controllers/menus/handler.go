@@ -3,6 +3,7 @@ package menus
 import (
 	"miniProject/business/menus"
 	"miniProject/controllers"
+	"miniProject/controllers/menus/responses"
 	"net/http"
 	"strconv"
 
@@ -39,7 +40,7 @@ func (handler MenuController) GetMenuByIDController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, menu)
+	return controllers.NewSuccessResponse(c, responses.UserMenuFromDomain(menu))
 }
 
 func (handler MenuController) CreateMenuController(c echo.Context) error {
@@ -82,9 +83,10 @@ func (handler MenuController) DeleteMenuController(c echo.Context) error {
 
 func (handler MenuController) GetAPI(c echo.Context) error {
 
-	key := c.Param("key")
+	key := c.Param("name")
 
-	menu, err := handler.MenuUseCase.APIz(key)
+	ctx := c.Request().Context()
+	menu, err := handler.MenuUseCase.GetMenuAPI(ctx, key)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}

@@ -6,11 +6,11 @@ import (
 )
 
 type UserResponse struct {
-	ID        int       `json:"id"`
-	MemberID  int       `json:"memberid"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
+	ID       int    `json:"id"`
+	MemberID int    `json:"memberid"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	// Password  string    `json:"password"`
 	Token     string    `json:"token"`
 	Address   string    `json:"address"`
 	Phone     string    `json:"phone"`
@@ -21,11 +21,11 @@ type UserResponse struct {
 
 func FromDomain(domain users.Domain) UserResponse {
 	return UserResponse{
-		MemberID:  domain.MemberID,
-		ID:        domain.ID,
-		Name:      domain.Name,
-		Email:     domain.Email,
-		Password:  domain.Password,
+		MemberID: domain.MemberID,
+		ID:       domain.ID,
+		Name:     domain.Name,
+		Email:    domain.Email,
+		// Password:  domain.Password,
 		Token:     domain.Token,
 		Address:   domain.Address,
 		Phone:     domain.Phone,

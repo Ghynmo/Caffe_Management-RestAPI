@@ -8,7 +8,7 @@ import (
 
 type Inventories struct {
 	gorm.Model
-	Name        int
+	Name        string
 	Stock       int
 	MeasureType string
 	UnitPrice   int

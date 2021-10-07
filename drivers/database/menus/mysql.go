@@ -3,6 +3,7 @@ package menus
 import (
 	"context"
 	"miniProject/business/menus"
+	TP "miniProject/drivers/database/thirdparty"
 
 	"gorm.io/gorm"
 )
@@ -65,4 +66,16 @@ func (DB *MysqlMenuRepository) DeleteMenu(ctx context.Context, id uint) (menus.D
 		return menus.Domain{}, result.Error
 	}
 	return Currentmenu.ToDomain(), nil
+}
+
+func (DB *MysqlMenuRepository) GetMenuAPI(ctx context.Context, key string) (menus.Domain, error) {
+	var menu menus.Domain
+	result, err := TP.GetMenusAPI(key)
+	if err != nil {
+		return menus.Domain{}, err
+	}
+
+	menu = result
+
+	return menu, nil
 }

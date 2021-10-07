@@ -21,7 +21,7 @@ type UseCase interface {
 	CreateMenuController(ctx context.Context, data Domain) (Domain, error)
 	UpdateMenuController(ctx context.Context, data Domain, id uint) (Domain, error)
 	DeleteMenuController(ctx context.Context, id uint) (Domain, error)
-	APIz(string) (Domain, error)
+	GetMenuAPI(ctx context.Context, key string) (Domain, error)
 }
 
 type Repository interface {
@@ -30,4 +30,5 @@ type Repository interface {
 	CreateMenu(ctx context.Context, data Domain) (Domain, error)
 	UpdateMenu(ctx context.Context, data Domain, id uint) (Domain, error)
 	DeleteMenu(ctx context.Context, id uint) (Domain, error)
+	GetMenuAPI(ctx context.Context, key string) (Domain, error)
 }

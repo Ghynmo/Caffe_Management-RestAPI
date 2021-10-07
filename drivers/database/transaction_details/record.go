@@ -8,7 +8,7 @@ import (
 
 type TransactionDetails struct {
 	gorm.Model
-	TransactionID uint
+	TransactionID uint //`gorm:"uniqueIndex:idx_table_details;type:BIGINT(255)"`
 	MenuID        uint
 	Quantity      int
 }

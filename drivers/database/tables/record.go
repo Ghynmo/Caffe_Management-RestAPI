@@ -39,3 +39,11 @@ func ToDomains(u []Tables) []tables.Domain {
 	}
 	return Domains
 }
+
+func ToListDomain(data []Tables) (result []tables.Domain) {
+	result = []tables.Domain{}
+	for _, val := range data {
+		result = append(result, val.ToDomain())
+	}
+	return result
+}

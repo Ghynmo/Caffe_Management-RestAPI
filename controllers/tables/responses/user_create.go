@@ -1,19 +1,15 @@
 package responses
 
-import "miniProject/business/users"
+import "miniProject/business/tables"
 
-type UserInsert struct {
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Address string `json:"address"`
-	Phone   string `json:"phone"`
+type TableInsert struct {
+	Capacity int  `json:"capacity"`
+	Status   bool `json:"status"`
 }
 
-func CreateFromDomain(domain users.Domain) UserInsert {
-	return UserInsert{
-		Name:    domain.Name,
-		Email:   domain.Email,
-		Address: domain.Address,
-		Phone:   domain.Phone,
+func CreateFromDomain(domain tables.Domain) TableInsert {
+	return TableInsert{
+		Capacity: domain.Capacity,
+		Status:   domain.Status,
 	}
 }

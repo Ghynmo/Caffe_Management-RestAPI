@@ -2,6 +2,7 @@ package users
 
 import (
 	"context"
+	"fmt"
 	"miniProject/business/users"
 
 	"gorm.io/gorm"
@@ -47,6 +48,7 @@ func (DB *MysqlUserRepository) GetUserByID(ctx context.Context, id int) (users.D
 
 func (DB *MysqlUserRepository) CreateUser(ctx context.Context, data users.Domain) (users.Domain, error) {
 	InsertUser := FromDomain(data)
+	fmt.Println(InsertUser)
 	result := DB.Conn.Create(&InsertUser)
 	if result.Error != nil {
 		return users.Domain{}, result.Error

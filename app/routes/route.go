@@ -3,13 +3,13 @@ package routes
 import (
 	"miniProject/controllers/inventories"
 	"miniProject/controllers/menus"
-	"miniProject/controllers/table_details"
 	"miniProject/controllers/tables"
 	"miniProject/controllers/transaction_details"
 	"miniProject/controllers/transactions"
 	"miniProject/controllers/users"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type ControllerList struct {
@@ -19,14 +19,15 @@ type ControllerList struct {
 	InventoryController         inventories.InventoryController
 	TransactionController       transactions.TransactionController
 	TransactionDetailController transaction_details.TransactionDetailController
-	TableDetailController       table_details.TableDetailController
+	JWTConfig                   middleware.JWTConfig
 }
 
 func (cl *ControllerList) RouteRegister(e echo.Echo) {
+	e.Use(middleware.Logger())
 
 	//Users
 	e.POST("users/login", cl.UserController.Login)
-	e.GET("users", cl.UserController.GetUserController)
+	e.GET("users", cl.UserController.GetUserController, middleware.JWTWithConfig(cl.JWTConfig))
 	e.GET("user", cl.UserController.GetUserByIDController)
 	e.POST("user", cl.UserController.CreateUserController)
 	e.PUT("user/:id", cl.UserController.UpdateUserController)
@@ -54,7 +55,7 @@ func (cl *ControllerList) RouteRegister(e echo.Echo) {
 	e.DELETE("table", cl.TableController.DeleteTableController)
 
 	//Transactions
-	e.GET("transactions", cl.TransactionController.GetTransactionsController)
+	e.POST("buy", cl.TransactionController.BuyTransactionController)
 	e.GET("transaction", cl.TransactionController.GetTransactionByIDController)
 	e.POST("transaction", cl.TransactionController.CreateTransactionController)
 	e.PUT("transaction/:id", cl.TransactionController.UpdateTransactionController)
@@ -62,15 +63,8 @@ func (cl *ControllerList) RouteRegister(e echo.Echo) {
 	//TransactionDetails
 	e.GET("transaction-details", cl.TransactionDetailController.GetTransactionDetailsController)
 	e.GET("transaction-detail", cl.TransactionDetailController.GetTransactionDetailByIDController)
-	e.POST("transaction-detail", cl.TransactionDetailController.CreateTransactionDetailController)
 	e.PUT("transaction-detail/:id", cl.TransactionDetailController.UpdateTransactionDetailController)
 
-	//Table_Details
-	e.GET("table-details", cl.TableDetailController.GetTableDetailsController)
-	e.GET("table-detail", cl.TableDetailController.GetTableDetailByIDController)
-	e.POST("table-detail", cl.TableDetailController.CreateTableDetailController)
-	e.PUT("table-detail/:id", cl.TableDetailController.UpdateTableDetailController)
-
 	//API
-	e.GET("getapimenu/:key", cl.MenuController.GetAPI)
+	e.GET("getapimenu/:name", cl.MenuController.GetAPI)
 }

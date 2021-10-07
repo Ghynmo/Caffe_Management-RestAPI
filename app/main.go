@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	_middleware "miniProject/app/middlewares"
 	"miniProject/app/routes"
 	_mysqlDriver "miniProject/drivers/mysql"
 	"time"
@@ -22,10 +23,6 @@ import (
 	_tableController "miniProject/controllers/tables"
 	_tableRepository "miniProject/drivers/database/tables"
 
-	_table_detailUseCase "miniProject/business/table_details"
-	_table_detailController "miniProject/controllers/table_details"
-	_table_detailRepository "miniProject/drivers/database/table_details"
-
 	_transactionUseCase "miniProject/business/transactions"
 	_transactionController "miniProject/controllers/transactions"
 	_transactionRepository "miniProject/drivers/database/transactions"
@@ -33,8 +30,6 @@ import (
 	_transaction_detailUseCase "miniProject/business/transaction_details"
 	_transaction_detailController "miniProject/controllers/transaction_details"
 	_transaction_detailRepository "miniProject/drivers/database/transaction_details"
-
-	_apiMasakRepository "miniProject/drivers/thirdparty/MasakAPI"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -51,7 +46,6 @@ func init() {
 
 func DbMigrate(db *gorm.DB) {
 	db.AutoMigrate(&_userRepository.Users{})
-	db.AutoMigrate(&_table_detailRepository.TableDetails{})
 	db.AutoMigrate(&_transactionRepository.Transactions{})
 	db.AutoMigrate(&_transaction_detailRepository.TransactionDetails{})
 	db.AutoMigrate(&_inventoryRepository.Inventories{})
@@ -71,20 +65,23 @@ func main() {
 		DB_Database: viper.GetString(`database.name`),
 	}
 
+	configJWT := _middleware.ConfigJwt{
+		SecretJWT:       viper.GetString(`jwt.secret`),
+		ExpiresDuration: viper.GetInt(`jwt.expired`),
+	}
+
 	Conn := configDB.InitialDB()
 	DbMigrate(Conn)
 
 	e := echo.New()
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 
-	apiMasakRepository := _apiMasakRepository.NewMasakAPIRepository()
-
 	userRepository := _userRepository.NewMysqlUserRepository(Conn)
-	userUseCase := _userUseCase.NewUserUseCase(userRepository, timeoutContext)
+	userUseCase := _userUseCase.NewUserUseCase(userRepository, timeoutContext, configJWT)
 	userController := _userController.NewUserController(userUseCase)
 
 	menuRepository := _menuRepository.NewMysqlMenuRepository(Conn)
-	menuUseCase := _menuUseCase.NewMenuUseCase(menuRepository, apiMasakRepository, timeoutContext)
+	menuUseCase := _menuUseCase.NewMenuUseCase(menuRepository, timeoutContext)
 	menuController := _menuController.NewMenuController(menuUseCase)
 
 	transactionRepository := _transactionRepository.NewMysqlTransactionRepository(Conn)
@@ -103,16 +100,12 @@ func main() {
 	tableUseCase := _tableUseCase.NewTableUseCase(tableRepository, timeoutContext)
 	tableController := _tableController.NewTableController(tableUseCase)
 
-	table_detailRepository := _table_detailRepository.NewMysqlTableDetailRepository(Conn)
-	table_detailUseCase := _table_detailUseCase.NewTableDetailUseCase(table_detailRepository, timeoutContext)
-	table_detailController := _table_detailController.NewTableDetailController(table_detailUseCase)
-
 	routesInit := routes.ControllerList{
+		JWTConfig:                   configJWT.Init(),
 		UserController:              *userController,
 		InventoryController:         *inventoryController,
 		MenuController:              *menuController,
 		TableController:             *tableController,
-		TableDetailController:       *table_detailController,
 		TransactionController:       *transactionController,
 		TransactionDetailController: *transaction_detailController,
 	}

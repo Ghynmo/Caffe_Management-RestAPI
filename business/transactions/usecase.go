@@ -2,6 +2,7 @@ package transactions
 
 import (
 	"context"
+	"fmt"
 	"time"
 )
 
@@ -17,12 +18,12 @@ func NewTransactionUseCase(repo Repository, timeout time.Duration) UseCase {
 	}
 }
 
-func (uc *TransactionUseCase) GetTransactionsController(ctx context.Context) ([]Domain, error) {
-	user, err := uc.Repo.GetTransactions(ctx)
+func (uc *TransactionUseCase) BuyTransactionController(ctx context.Context, data Domain) (Domain, error) {
+	user, err := uc.Repo.BuyTransaction(ctx, data)
 	if err != nil {
-		return []Domain{}, err
+		return Domain{}, err
 	}
-
+	fmt.Println(user)
 	return user, nil
 }
 

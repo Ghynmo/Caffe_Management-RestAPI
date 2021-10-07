@@ -8,34 +8,36 @@ import (
 
 type Transactions struct {
 	gorm.Model
-	UserID        uint
-	TableDetailID uint
-	Payment       int
-	Price         int
-	Status        bool
+	UserID   uint
+	Menu     string
+	Quantity int
+	Payment  int
+	Price    int
+	Status   bool
 }
 
 func (transaction *Transactions) ToDomain() transactions.Domain {
 	return transactions.Domain{
-
-		ID:            transaction.ID,
-		UserID:        transaction.UserID,
-		TableDetailID: transaction.TableDetailID,
-		Payment:       transaction.Payment,
-		Price:         transaction.Price,
-		Status:        transaction.Status,
-		CreatedAt:     transaction.CreatedAt,
-		UpdatedAt:     transaction.CreatedAt,
+		ID:        uint(transaction.ID),
+		UserID:    uint(transaction.UserID),
+		Payment:   transaction.Payment,
+		Menu:      transaction.Menu,
+		Quantity:  transaction.Quantity,
+		Price:     transaction.Price,
+		Status:    transaction.Status,
+		CreatedAt: transaction.CreatedAt,
+		UpdatedAt: transaction.CreatedAt,
 	}
 }
 
 func FromDomain(domain transactions.Domain) Transactions {
 	return Transactions{
-		UserID:        domain.UserID,
-		TableDetailID: domain.TableDetailID,
-		Payment:       domain.Payment,
-		Price:         domain.Price,
-		Status:        domain.Status,
+		UserID:   domain.UserID,
+		Payment:  domain.Payment,
+		Menu:     domain.Menu,
+		Quantity: domain.Quantity,
+		Price:    domain.Price,
+		Status:   domain.Status,
 	}
 }
 
@@ -46,4 +48,12 @@ func ToDomains(u []Transactions) []transactions.Domain {
 		Domains = append(Domains, val.ToDomain())
 	}
 	return Domains
+}
+
+func ToListDomain(data []Transactions) (result []transactions.Domain) {
+	result = []transactions.Domain{}
+	for _, val := range data {
+		result = append(result, val.ToDomain())
+	}
+	return result
 }

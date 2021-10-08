@@ -2,6 +2,7 @@ package transaction_details
 
 import (
 	"context"
+	"fmt"
 	"time"
 )
 
@@ -26,7 +27,7 @@ func (uc *TransactionDetailUseCase) GetTransactionDetailsController(ctx context.
 	return user, nil
 }
 
-func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx context.Context, id uint) (Domain, error) {
+func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx context.Context, id int) (Domain, error) {
 	user, err := uc.Repo.GetTransactionDetailByID(ctx, id)
 	if err != nil {
 		return Domain{}, err
@@ -35,16 +36,22 @@ func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx conte
 	return user, nil
 }
 
-func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx context.Context, data Domain) (Domain, error) {
-	user, err := uc.Repo.CreateTransactionDetail(ctx, data)
-	if err != nil {
-		return Domain{}, err
+func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx context.Context, data []Domain) ([]Domain, error) {
+	var results []Domain
+	fmt.Println(data)
+
+	for _, val := range data {
+		result, err := uc.Repo.CreateTransactionDetail(ctx, val)
+		if err != nil {
+			return []Domain{}, err
+		}
+		results = append(results, result)
 	}
 
-	return user, nil
+	return results, nil
 }
 
-func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id uint) (Domain, error) {
+func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id int) (Domain, error) {
 	user, err := uc.Repo.UpdateTransactionDetail(ctx, data, id)
 	if err != nil {
 		return Domain{}, err

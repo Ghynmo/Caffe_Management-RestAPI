@@ -8,26 +8,23 @@ import (
 
 type TransactionDetails struct {
 	gorm.Model
-	TransactionID uint //`gorm:"uniqueIndex:idx_table_details;type:BIGINT(255)"`
-	MenuID        uint
+	TransactionID int //`gorm:"uniqueIndex:idx_table_details;type:BIGINT(255)"`
+	Menu          string
 	Quantity      int
 }
 
 func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
 	return trDetails.Domain{
-		ID:            trDetail.ID,
 		TransactionID: trDetail.TransactionID,
-		MenuID:        trDetail.MenuID,
+		Menu:          trDetail.Menu,
 		Quantity:      trDetail.Quantity,
-		CreatedAt:     trDetail.CreatedAt,
-		UpdatedAt:     trDetail.UpdatedAt,
 	}
 }
 
 func FromDomain(domain trDetails.Domain) TransactionDetails {
 	return TransactionDetails{
 		TransactionID: domain.TransactionID,
-		MenuID:        domain.MenuID,
+		Menu:          domain.Menu,
 		Quantity:      domain.Quantity,
 	}
 }

@@ -2,6 +2,7 @@ package transaction_details
 
 import (
 	"context"
+	"fmt"
 	"miniProject/business/transaction_details"
 
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ func (DB *MysqlTransactionDetailRepository) GetTransactionDetails(ctx context.Co
 	return ToDomains(CurrentTransactionDetail), nil
 }
 
-func (DB *MysqlTransactionDetailRepository) GetTransactionDetailByID(ctx context.Context, id uint) (transaction_details.Domain, error) {
+func (DB *MysqlTransactionDetailRepository) GetTransactionDetailByID(ctx context.Context, id int) (transaction_details.Domain, error) {
 	var Currenttransaction TransactionDetails
 	result := DB.Conn.Where("id = ?", id).First(&Currenttransaction)
 	if result.Error != nil {
@@ -37,15 +38,16 @@ func (DB *MysqlTransactionDetailRepository) GetTransactionDetailByID(ctx context
 
 func (DB *MysqlTransactionDetailRepository) CreateTransactionDetail(ctx context.Context, data transaction_details.Domain) (transaction_details.Domain, error) {
 	InsertTransactionDetail := FromDomain(data)
+	fmt.Println(InsertTransactionDetail)
 	result := DB.Conn.Create(&InsertTransactionDetail)
 	if result.Error != nil {
 		return transaction_details.Domain{}, result.Error
 	}
-
+	fmt.Println(result)
 	return InsertTransactionDetail.ToDomain(), nil
 }
 
-func (DB *MysqlTransactionDetailRepository) UpdateTransactionDetail(ctx context.Context, data transaction_details.Domain, id uint) (transaction_details.Domain, error) {
+func (DB *MysqlTransactionDetailRepository) UpdateTransactionDetail(ctx context.Context, data transaction_details.Domain, id int) (transaction_details.Domain, error) {
 	Currenttransaction := FromDomain(data)
 	result := DB.Conn.Where("id = ?", id).Updates(Currenttransaction).First(&Currenttransaction)
 	if result.Error != nil {

@@ -1,6 +1,7 @@
 package transaction_details
 
 import (
+	"fmt"
 	"miniProject/business/transaction_details"
 	"miniProject/controllers"
 	"net/http"
@@ -13,20 +14,20 @@ type TransactionDetailController struct {
 	TransactionDetailUseCase transaction_details.UseCase
 }
 
-func NewTransactionDetailController(menuUseCase transaction_details.UseCase) *TransactionDetailController {
+func NewTransactionDetailController(transaction_detailUseCase transaction_details.UseCase) *TransactionDetailController {
 	return &TransactionDetailController{
-		TransactionDetailUseCase: menuUseCase,
+		TransactionDetailUseCase: transaction_detailUseCase,
 	}
 }
 
 func (handler TransactionDetailController) GetTransactionDetailsController(c echo.Context) error {
 
 	ctx := c.Request().Context()
-	menu, err := handler.TransactionDetailUseCase.GetTransactionDetailsController(ctx)
+	transaction_detail, err := handler.TransactionDetailUseCase.GetTransactionDetailsController(ctx)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, menu)
+	return controllers.NewSuccessResponse(c, transaction_detail)
 }
 
 func (handler TransactionDetailController) GetTransactionDetailByIDController(c echo.Context) error {
@@ -35,36 +36,37 @@ func (handler TransactionDetailController) GetTransactionDetailByIDController(c 
 
 	ctx := c.Request().Context()
 
-	menu, err := handler.TransactionDetailUseCase.GetTransactionDetailByIDController(ctx, uint(id))
+	transaction_detail, err := handler.TransactionDetailUseCase.GetTransactionDetailByIDController(ctx, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, menu)
+	return controllers.NewSuccessResponse(c, transaction_detail)
 }
 
 func (handler TransactionDetailController) CreateTransactionDetailController(c echo.Context) error {
-	menuInsert := transaction_details.Domain{}
-	c.Bind(&menuInsert)
-
+	transaction_detailInsert := []transaction_details.Domain{}
+	fmt.Println(transaction_detailInsert)
+	c.Bind(&transaction_detailInsert)
+	fmt.Println(transaction_detailInsert)
 	ctx := c.Request().Context()
 
-	menu, err := handler.TransactionDetailUseCase.CreateTransactionDetailController(ctx, menuInsert)
+	transaction_detail, err := handler.TransactionDetailUseCase.CreateTransactionDetailController(ctx, transaction_detailInsert)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, menu)
+	return controllers.NewSuccessResponse(c, transaction_detail)
 }
 
 func (handler TransactionDetailController) UpdateTransactionDetailController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	menuInsert := transaction_details.Domain{}
-	c.Bind(&menuInsert)
+	transaction_detailInsert := transaction_details.Domain{}
+	c.Bind(&transaction_detailInsert)
 
 	ctx := c.Request().Context()
-	menu, err := handler.TransactionDetailUseCase.UpdateTransactionDetailController(ctx, menuInsert, uint(id))
+	transaction_detail, err := handler.TransactionDetailUseCase.UpdateTransactionDetailController(ctx, transaction_detailInsert, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, menu)
+	return controllers.NewSuccessResponse(c, transaction_detail)
 }

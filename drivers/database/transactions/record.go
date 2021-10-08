@@ -21,8 +21,6 @@ func (transaction *Transactions) ToDomain() transactions.Domain {
 		ID:        uint(transaction.ID),
 		UserID:    uint(transaction.UserID),
 		Payment:   transaction.Payment,
-		Menu:      transaction.Menu,
-		Quantity:  transaction.Quantity,
 		Price:     transaction.Price,
 		Status:    transaction.Status,
 		CreatedAt: transaction.CreatedAt,
@@ -32,12 +30,10 @@ func (transaction *Transactions) ToDomain() transactions.Domain {
 
 func FromDomain(domain transactions.Domain) Transactions {
 	return Transactions{
-		UserID:   domain.UserID,
-		Payment:  domain.Payment,
-		Menu:     domain.Menu,
-		Quantity: domain.Quantity,
-		Price:    domain.Price,
-		Status:   domain.Status,
+		UserID:  domain.UserID,
+		Payment: domain.Payment,
+		Price:   domain.Price,
+		Status:  domain.Status,
 	}
 }
 

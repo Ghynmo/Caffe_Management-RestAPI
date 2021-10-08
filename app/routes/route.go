@@ -55,7 +55,6 @@ func (cl *ControllerList) RouteRegister(e echo.Echo) {
 	e.DELETE("table", cl.TableController.DeleteTableController)
 
 	//Transactions
-	e.POST("buy", cl.TransactionController.BuyTransactionController)
 	e.GET("transaction", cl.TransactionController.GetTransactionByIDController)
 	e.POST("transaction", cl.TransactionController.CreateTransactionController)
 	e.PUT("transaction/:id", cl.TransactionController.UpdateTransactionController)
@@ -67,4 +66,5 @@ func (cl *ControllerList) RouteRegister(e echo.Echo) {
 
 	//API
 	e.GET("getapimenu/:name", cl.MenuController.GetAPI)
+	e.POST("buy", cl.TransactionDetailController.CreateTransactionDetailController)
 }

@@ -1,7 +1,15 @@
 package request
 
-type TransactionDetailInsert struct {
-	TransactionID uint `json:"transaction_id"`
-	MenuID        uint `json:"menu_id"`
-	Quantity      int  `json:"quantity"`
+type TransactionDetailInsert []struct {
+	TransactionID int    `json:"transaction_id"`
+	Menu          string `json:"menu"`
+	Quantity      int    `json:"quantity"`
 }
+
+// func (tr *TransactionDetailInsert) ToDomain() transaction_details.Domain {
+// 	return transaction_details.Domain{
+// 		TransactionDetailID: tr.TransactionDetailID,
+// 		Menu:                tr.Menu,
+// 		Quantity:            tr.Quantity,
+// 	}
+// }

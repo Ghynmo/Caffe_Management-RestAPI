@@ -1,17 +1,18 @@
 package request
 
-import "miniProject/business/transactions"
+import (
+	"miniProject/business/transaction_details"
+)
 
-type TransactionBuy struct {
-	UserID   uint   `json:"user_id"`
-	Menu     string `json:"menu"`
-	Quantity int    `json:"quantity"`
+type TransactionBuyArr struct {
+	UserID        uint                         `json:"user_id"`
+	TransacDetail []transaction_details.Domain `json:"menuand_q"`
 }
 
-func (tr *TransactionBuy) ToDomain() transactions.Domain {
-	return transactions.Domain{
-		UserID:   tr.UserID,
-		Menu:     tr.Menu,
-		Quantity: tr.Quantity,
-	}
-}
+// func (tr *TransactionBuy) ToDomain() transactions.Domain {
+// 	return transactions.Domain{
+// 		UserID:   tr.UserID,
+// 		Menu:     tr.Menu,
+// 		Quantity: tr.Quantity,
+// 	}
+// }

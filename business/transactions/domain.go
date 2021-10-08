@@ -2,24 +2,22 @@ package transactions
 
 import (
 	"context"
-	// "miniProject/business/tables"
+	"miniProject/business/transaction_details"
 	"time"
 )
 
 type Domain struct {
-	ID        uint
-	UserID    uint
-	Menu      string
-	Quantity  int
-	Payment   int
-	Price     int
-	Status    bool
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID            uint
+	UserID        uint
+	TransacDetail []transaction_details.Domain
+	Payment       int
+	Price         int
+	Status        bool
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type UseCase interface {
-	BuyTransactionController(ctx context.Context, data Domain) (Domain, error)
 	GetTransactionByIDController(ctx context.Context, id uint) (Domain, error)
 	CreateTransactionController(ctx context.Context, data Domain) (Domain, error)
 	UpdateTransactionController(ctx context.Context, data Domain, id uint) (Domain, error)

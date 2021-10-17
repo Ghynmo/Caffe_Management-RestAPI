@@ -6,7 +6,7 @@ import (
 )
 
 type Domain struct {
-	ID          uint
+	ID          int
 	Name        string
 	Stock       int
 	MeasureType string

@@ -2,19 +2,19 @@ package tables
 
 import (
 	"miniProject/business/tables"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Tables struct {
-	gorm.Model
-	Capacity int
-	Status   bool
+	ID        int `gorm:"primaryKey"`
+	Capacity  int
+	Status    bool
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (table *Tables) ToDomain() tables.Domain {
 	return tables.Domain{
-
 		ID:        table.ID,
 		Capacity:  table.Capacity,
 		Status:    table.Status,

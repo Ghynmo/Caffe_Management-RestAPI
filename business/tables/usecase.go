@@ -26,7 +26,7 @@ func (uc *TableUseCase) GetTablesController(ctx context.Context) ([]Domain, erro
 	return user, nil
 }
 
-func (uc *TableUseCase) GetTableByIDController(ctx context.Context, id uint) (Domain, error) {
+func (uc *TableUseCase) GetTableByIDController(ctx context.Context, id int) (Domain, error) {
 	user, err := uc.Repo.GetTableByID(ctx, id)
 	if err != nil {
 		return Domain{}, err
@@ -44,7 +44,7 @@ func (uc *TableUseCase) CreateTableController(ctx context.Context, data Domain) 
 	return user, nil
 }
 
-func (uc *TableUseCase) UpdateTableController(ctx context.Context, data Domain, id uint) (Domain, error) {
+func (uc *TableUseCase) UpdateTableController(ctx context.Context, data Domain, id int) (Domain, error) {
 	user, err := uc.Repo.UpdateTable(ctx, data, id)
 	if err != nil {
 		return Domain{}, err
@@ -53,7 +53,7 @@ func (uc *TableUseCase) UpdateTableController(ctx context.Context, data Domain, 
 	return user, nil
 }
 
-func (uc *TableUseCase) DeleteTableController(ctx context.Context, id uint) (Domain, error) {
+func (uc *TableUseCase) DeleteTableController(ctx context.Context, id int) (Domain, error) {
 	user, err := uc.Repo.DeleteTable(ctx, id)
 	if err != nil {
 		return Domain{}, err

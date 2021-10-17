@@ -2,22 +2,24 @@ package menus
 
 import (
 	"miniProject/business/menus"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Menus struct {
-	gorm.Model
-	Name     string
-	Category string
-	Price    int
-	Stock    int
+	ID        int `gorm:"primaryKey"`
+	Name      string
+	Category  string
+	Price     int
+	Stock     int
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 func (menu *Menus) ToDomain() menus.Domain {
 	return menus.Domain{
 
-		ID:        uint(menu.ID),
+		ID:        int(menu.ID),
 		Name:      menu.Name,
 		Category:  menu.Category,
 		Price:     menu.Price,

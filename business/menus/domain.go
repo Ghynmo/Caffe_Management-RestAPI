@@ -6,7 +6,7 @@ import (
 )
 
 type Domain struct {
-	ID        uint
+	ID        int
 	Name      string
 	Category  string
 	Price     int
@@ -17,18 +17,18 @@ type Domain struct {
 
 type UseCase interface {
 	GetMenusController(ctx context.Context) ([]Domain, error)
-	GetMenuByIDController(ctx context.Context, id uint) (Domain, error)
+	GetMenuByIDController(ctx context.Context, id int) (Domain, error)
 	CreateMenuController(ctx context.Context, data Domain) (Domain, error)
-	UpdateMenuController(ctx context.Context, data Domain, id uint) (Domain, error)
-	DeleteMenuController(ctx context.Context, id uint) (Domain, error)
+	UpdateMenuController(ctx context.Context, data Domain, id int) (Domain, error)
+	DeleteMenuController(ctx context.Context, id int) (Domain, error)
 	GetMenuAPI(ctx context.Context, key string) (Domain, error)
 }
 
 type Repository interface {
 	GetMenu(ctx context.Context) ([]Domain, error)
-	GetMenuByID(ctx context.Context, id uint) (Domain, error)
+	GetMenuByID(ctx context.Context, id int) (Domain, error)
 	CreateMenu(ctx context.Context, data Domain) (Domain, error)
-	UpdateMenu(ctx context.Context, data Domain, id uint) (Domain, error)
-	DeleteMenu(ctx context.Context, id uint) (Domain, error)
+	UpdateMenu(ctx context.Context, data Domain, id int) (Domain, error)
+	DeleteMenu(ctx context.Context, id int) (Domain, error)
 	GetMenuAPI(ctx context.Context, key string) (Domain, error)
 }

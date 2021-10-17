@@ -20,7 +20,7 @@ func NewMysqlTransactionDetailRepository(conn *gorm.DB) transaction_details.Repo
 
 func (DB *MysqlTransactionDetailRepository) GetTransactionDetails(ctx context.Context) ([]transaction_details.Domain, error) {
 	var CurrentTransactionDetail []TransactionDetails
-	result := DB.Conn.Find(&CurrentTransactionDetail)
+	result := DB.Conn.Preload("Menu").Preload("Transaction.User").Find(&CurrentTransactionDetail)
 	if result.Error != nil {
 		return []transaction_details.Domain{}, result.Error
 	}
@@ -29,7 +29,7 @@ func (DB *MysqlTransactionDetailRepository) GetTransactionDetails(ctx context.Co
 
 func (DB *MysqlTransactionDetailRepository) GetTransactionDetailByID(ctx context.Context, id int) (transaction_details.Domain, error) {
 	var Currenttransaction TransactionDetails
-	result := DB.Conn.Where("id = ?", id).First(&Currenttransaction)
+	result := DB.Conn.Preload("Menu").Preload("Transaction.User").Where("id = ?", id).First(&Currenttransaction)
 	if result.Error != nil {
 		return transaction_details.Domain{}, result.Error
 	}
@@ -38,12 +38,19 @@ func (DB *MysqlTransactionDetailRepository) GetTransactionDetailByID(ctx context
 
 func (DB *MysqlTransactionDetailRepository) CreateTransactionDetail(ctx context.Context, data transaction_details.Domain) (transaction_details.Domain, error) {
 	InsertTransactionDetail := FromDomain(data)
-	fmt.Println(InsertTransactionDetail)
+
+	fmt.Println("After pass from Usecase, Conv to driver struct", InsertTransactionDetail)
+
 	result := DB.Conn.Create(&InsertTransactionDetail)
 	if result.Error != nil {
 		return transaction_details.Domain{}, result.Error
 	}
-	fmt.Println(result)
+
+	resp_result := DB.Conn.Preload("Menu").Preload("Transaction.User").Where("id = ?", InsertTransactionDetail.ID).First(&InsertTransactionDetail)
+	if result.Error != nil {
+		return transaction_details.Domain{}, resp_result.Error
+	}
+
 	return InsertTransactionDetail.ToDomain(), nil
 }
 

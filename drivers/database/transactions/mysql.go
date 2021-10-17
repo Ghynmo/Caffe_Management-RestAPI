@@ -2,7 +2,6 @@ package transactions
 
 import (
 	"context"
-	"fmt"
 	"miniProject/business/transactions"
 
 	"gorm.io/gorm"
@@ -18,19 +17,18 @@ func NewMysqlTransactionRepository(conn *gorm.DB) transactions.Repository {
 	}
 }
 
-func (DB *MysqlTransactionRepository) BuyTransaction(ctx context.Context, data transactions.Domain) (transactions.Domain, error) {
-	CurrentTransaction := FromDomain(data)
-	fmt.Println(CurrentTransaction)
-	result := DB.Conn.Create(&CurrentTransaction)
+func (DB *MysqlTransactionRepository) GetTransaction(ctx context.Context) ([]transactions.Domain, error) {
+	var CurrentTransaction []Transactions
+	result := DB.Conn.Preload("User").Find(&CurrentTransaction)
 	if result.Error != nil {
-		return transactions.Domain{}, result.Error
+		return []transactions.Domain{}, result.Error
 	}
-	return CurrentTransaction.ToDomain(), nil
+	return ToDomains(CurrentTransaction), nil
 }
 
-func (DB *MysqlTransactionRepository) GetTransactionByID(ctx context.Context, id uint) (transactions.Domain, error) {
+func (DB *MysqlTransactionRepository) GetTransactionByID(ctx context.Context, id int) (transactions.Domain, error) {
 	var Currenttransaction Transactions
-	result := DB.Conn.Where("id = ?", id).First(&Currenttransaction)
+	result := DB.Conn.Preload("User").Where("id = ?", id).First(&Currenttransaction)
 	if result.Error != nil {
 		return transactions.Domain{}, result.Error
 	}
@@ -43,12 +41,18 @@ func (DB *MysqlTransactionRepository) CreateTransaction(ctx context.Context, dat
 	if result.Error != nil {
 		return transactions.Domain{}, result.Error
 	}
+
+	resp_result := DB.Conn.Preload("User").Where("id = ?", InsertTransaction.ID).First(&InsertTransaction)
+	if result.Error != nil {
+		return transactions.Domain{}, resp_result.Error
+	}
+
 	return InsertTransaction.ToDomain(), nil
 }
 
-func (DB *MysqlTransactionRepository) UpdateTransaction(ctx context.Context, data transactions.Domain, id uint) (transactions.Domain, error) {
-	Currenttransaction := FromDomain(data)
-	result := DB.Conn.Where("id = ?", id).Updates(Currenttransaction).First(&Currenttransaction)
+func (DB *MysqlTransactionRepository) DeleteTransaction(ctx context.Context, id int) (transactions.Domain, error) {
+	var Currenttransaction Transactions
+	result := DB.Conn.Where("id = ?", id).Delete(&Currenttransaction)
 	if result.Error != nil {
 		return transactions.Domain{}, result.Error
 	}

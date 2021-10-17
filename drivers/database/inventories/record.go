@@ -2,16 +2,18 @@ package inventories
 
 import (
 	"miniProject/business/inventories"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Inventories struct {
-	gorm.Model
+	ID          int `gorm:"primaryKey"`
 	Name        string
 	Stock       int
 	MeasureType string
 	UnitPrice   int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   time.Time
 }
 
 func (inventory *Inventories) ToDomain() inventories.Domain {

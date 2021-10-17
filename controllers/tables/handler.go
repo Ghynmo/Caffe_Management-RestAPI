@@ -35,7 +35,7 @@ func (handler TableController) GetTableByIDController(c echo.Context) error {
 
 	ctx := c.Request().Context()
 
-	table, err := handler.TableUseCase.GetTableByIDController(ctx, uint(id))
+	table, err := handler.TableUseCase.GetTableByIDController(ctx, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
@@ -62,7 +62,7 @@ func (handler TableController) UpdateTableController(c echo.Context) error {
 	c.Bind(&tableInsert)
 
 	ctx := c.Request().Context()
-	table, err := handler.TableUseCase.UpdateTableController(ctx, tableInsert, uint(id))
+	table, err := handler.TableUseCase.UpdateTableController(ctx, tableInsert, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
@@ -73,7 +73,7 @@ func (handler TableController) DeleteTableController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.QueryParam("id"))
 
 	ctx := c.Request().Context()
-	table, err := handler.TableUseCase.DeleteTableController(ctx, uint(id))
+	table, err := handler.TableUseCase.DeleteTableController(ctx, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}

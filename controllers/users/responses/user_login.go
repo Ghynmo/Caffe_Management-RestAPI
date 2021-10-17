@@ -5,11 +5,10 @@ import (
 	"time"
 )
 
-type UserResponse struct {
-	ID       int    `json:"id"`
-	MemberID int    `json:"memberid"`
-	Name     string `json:"name"`
-	Email    string `json:"email"`
+type UserResponseLogin struct {
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 	// Password  string    `json:"password"`
 	Token     string    `json:"token"`
 	Address   string    `json:"address"`
@@ -19,12 +18,11 @@ type UserResponse struct {
 	UpdatedAt time.Time `json:"updatedat"`
 }
 
-func FromDomain(domain users.Domain) UserResponse {
-	return UserResponse{
-		MemberID: domain.MemberID,
-		ID:       domain.ID,
-		Name:     domain.Name,
-		Email:    domain.Email,
+func FromDomain_Login(domain users.Domain) UserResponseLogin {
+	return UserResponseLogin{
+		ID:    domain.ID,
+		Name:  domain.Name,
+		Email: domain.Email,
 		// Password:  domain.Password,
 		Token:     domain.Token,
 		Address:   domain.Address,

@@ -2,26 +2,25 @@ package users
 
 import (
 	"miniProject/business/users"
-	// "miniProject/drivers/database/transactions"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Users struct {
-	gorm.Model
-	MemberID int
-	Name     string
-	Email    string `gorm:"unique"`
-	Password string
-	Address  string
-	Phone    string
-	Point    int
-	// Transactions []transactions.Transactions `gorm:"foreignKey:UserID"`
+	ID        int `gorm:"primaryKey"`
+	Name      string
+	Email     string `gorm:"unique"`
+	Password  string
+	Address   string
+	Phone     string
+	Point     int
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 func (user *Users) ToDomain() users.Domain {
 	return users.Domain{
-		MemberID:  user.MemberID,
+		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
 		Password:  user.Password,
@@ -35,7 +34,6 @@ func (user *Users) ToDomain() users.Domain {
 
 func FromDomain(domain users.Domain) Users {
 	return Users{
-		MemberID: domain.MemberID,
 		Name:     domain.Name,
 		Email:    domain.Email,
 		Password: domain.Password,

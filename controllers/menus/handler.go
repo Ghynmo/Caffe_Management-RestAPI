@@ -36,7 +36,7 @@ func (handler MenuController) GetMenuByIDController(c echo.Context) error {
 
 	ctx := c.Request().Context()
 
-	menu, err := handler.MenuUseCase.GetMenuByIDController(ctx, uint(id))
+	menu, err := handler.MenuUseCase.GetMenuByIDController(ctx, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
@@ -63,7 +63,7 @@ func (handler MenuController) UpdateMenuController(c echo.Context) error {
 	c.Bind(&menuInsert)
 
 	ctx := c.Request().Context()
-	menu, err := handler.MenuUseCase.UpdateMenuController(ctx, menuInsert, uint(id))
+	menu, err := handler.MenuUseCase.UpdateMenuController(ctx, menuInsert, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
@@ -74,7 +74,7 @@ func (handler MenuController) DeleteMenuController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.QueryParam("id"))
 
 	ctx := c.Request().Context()
-	menu, err := handler.MenuUseCase.DeleteMenuController(ctx, uint(id))
+	menu, err := handler.MenuUseCase.DeleteMenuController(ctx, int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}

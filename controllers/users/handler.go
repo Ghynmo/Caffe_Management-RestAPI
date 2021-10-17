@@ -31,7 +31,7 @@ func (handler UserController) Login(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, responses.FromDomain(user))
+	return controllers.NewSuccessResponse(c, responses.FromDomain_Login(user))
 }
 
 func (handler UserController) GetUserController(c echo.Context) error {
@@ -41,7 +41,7 @@ func (handler UserController) GetUserController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, user)
+	return controllers.NewSuccessResponse(c, responses.FromListDomain(user))
 }
 
 func (handler UserController) GetUserByIDController(c echo.Context) error {
@@ -54,7 +54,7 @@ func (handler UserController) GetUserByIDController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, user)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(user))
 }
 
 func (handler UserController) CreateUserController(c echo.Context) error {
@@ -67,7 +67,7 @@ func (handler UserController) CreateUserController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, responses.CreateFromDomain(user))
+	return controllers.NewSuccessResponse(c, responses.FromDomain(user))
 }
 
 func (handler UserController) UpdateUserController(c echo.Context) error {
@@ -81,7 +81,7 @@ func (handler UserController) UpdateUserController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, user)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(user))
 }
 
 func (handler UserController) DeleteUserController(c echo.Context) error {
@@ -92,5 +92,5 @@ func (handler UserController) DeleteUserController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, user)
+	return controllers.DeleteSuccessResponse(c, user)
 }

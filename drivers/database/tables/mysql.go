@@ -26,7 +26,7 @@ func (DB *MysqlTableRepository) GetTables(ctx context.Context) ([]tables.Domain,
 	return ToDomains(CurrentTable), nil
 }
 
-func (DB *MysqlTableRepository) GetTableByID(ctx context.Context, id uint) (tables.Domain, error) {
+func (DB *MysqlTableRepository) GetTableByID(ctx context.Context, id int) (tables.Domain, error) {
 	var Currenttable Tables
 	result := DB.Conn.Where("id = ?", id).First(&Currenttable)
 	if result.Error != nil {
@@ -45,7 +45,7 @@ func (DB *MysqlTableRepository) CreateTable(ctx context.Context, data tables.Dom
 	return InsertTable.ToDomain(), nil
 }
 
-func (DB *MysqlTableRepository) UpdateTable(ctx context.Context, data tables.Domain, id uint) (tables.Domain, error) {
+func (DB *MysqlTableRepository) UpdateTable(ctx context.Context, data tables.Domain, id int) (tables.Domain, error) {
 	Currenttable := FromDomain(data)
 	result := DB.Conn.Where("id = ?", id).Updates(Currenttable).First(&Currenttable)
 	if result.Error != nil {
@@ -54,7 +54,7 @@ func (DB *MysqlTableRepository) UpdateTable(ctx context.Context, data tables.Dom
 	return Currenttable.ToDomain(), nil
 }
 
-func (DB *MysqlTableRepository) DeleteTable(ctx context.Context, id uint) (tables.Domain, error) {
+func (DB *MysqlTableRepository) DeleteTable(ctx context.Context, id int) (tables.Domain, error) {
 	var Currenttable Tables
 	result := DB.Conn.Where("id = ?", id).Delete(&Currenttable)
 	if result.Error != nil {

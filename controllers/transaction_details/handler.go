@@ -44,10 +44,12 @@ func (handler TransactionDetailController) GetTransactionDetailByIDController(c 
 }
 
 func (handler TransactionDetailController) CreateTransactionDetailController(c echo.Context) error {
-	transaction_detailInsert := []transaction_details.Domain{}
-	fmt.Println(transaction_detailInsert)
+	transaction_detailInsert := transaction_details.Domain{}
+	fmt.Println("Before Bind", transaction_detailInsert)
+
 	c.Bind(&transaction_detailInsert)
-	fmt.Println(transaction_detailInsert)
+	fmt.Println("After Bind", transaction_detailInsert)
+
 	ctx := c.Request().Context()
 
 	transaction_detail, err := handler.TransactionDetailUseCase.CreateTransactionDetailController(ctx, transaction_detailInsert)

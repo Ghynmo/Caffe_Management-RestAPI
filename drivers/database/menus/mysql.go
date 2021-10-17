@@ -27,7 +27,7 @@ func (DB *MysqlMenuRepository) GetMenu(ctx context.Context) ([]menus.Domain, err
 	return ToDomains(CurrentMenu), nil
 }
 
-func (DB *MysqlMenuRepository) GetMenuByID(ctx context.Context, id uint) (menus.Domain, error) {
+func (DB *MysqlMenuRepository) GetMenuByID(ctx context.Context, id int) (menus.Domain, error) {
 	var Currentmenu Menus
 	result := DB.Conn.Where("id = ?", id).First(&Currentmenu)
 	if result.Error != nil {
@@ -50,7 +50,7 @@ func (DB *MysqlMenuRepository) CreateMenu(ctx context.Context, data menus.Domain
 	return resp_result, nil
 }
 
-func (DB *MysqlMenuRepository) UpdateMenu(ctx context.Context, data menus.Domain, id uint) (menus.Domain, error) {
+func (DB *MysqlMenuRepository) UpdateMenu(ctx context.Context, data menus.Domain, id int) (menus.Domain, error) {
 	Currentmenu := FromDomain(data)
 	result := DB.Conn.Where("id = ?", id).Updates(Currentmenu).First(&Currentmenu)
 	if result.Error != nil {
@@ -59,7 +59,7 @@ func (DB *MysqlMenuRepository) UpdateMenu(ctx context.Context, data menus.Domain
 	return Currentmenu.ToDomain(), nil
 }
 
-func (DB *MysqlMenuRepository) DeleteMenu(ctx context.Context, id uint) (menus.Domain, error) {
+func (DB *MysqlMenuRepository) DeleteMenu(ctx context.Context, id int) (menus.Domain, error) {
 	var Currentmenu Menus
 	result := DB.Conn.Where("id = ?", id).Delete(&Currentmenu)
 	if result.Error != nil {

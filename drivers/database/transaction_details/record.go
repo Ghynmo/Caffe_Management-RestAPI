@@ -2,21 +2,27 @@ package transaction_details
 
 import (
 	trDetails "miniProject/business/transaction_details"
-
-	"gorm.io/gorm"
+	"miniProject/drivers/database/menus"
+	"miniProject/drivers/database/transactions"
 )
 
 type TransactionDetails struct {
-	gorm.Model
-	TransactionID int //`gorm:"uniqueIndex:idx_table_details;type:BIGINT(255)"`
-	Menu          string
+	ID            int `gorm:"primaryKey"`
+	TransactionID int
+	Transaction   transactions.Transactions `gorm:"foreignKey:TransactionID"`
+	MenuID        int
+	Menu          menus.Menus `gorm:"foreignKey:MenuID"`
 	Quantity      int
 }
 
 func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
 	return trDetails.Domain{
+		ID:            trDetail.ID,
 		TransactionID: trDetail.TransactionID,
-		Menu:          trDetail.Menu,
+		Transaction:   trDetail.Transaction.ToDomain(),
+		MenuID:        trDetail.MenuID,
+		Menu:          trDetail.Menu.Name,
+		Menus:         trDetail.Menu.ToDomain(),
 		Quantity:      trDetail.Quantity,
 	}
 }
@@ -24,7 +30,7 @@ func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
 func FromDomain(domain trDetails.Domain) TransactionDetails {
 	return TransactionDetails{
 		TransactionID: domain.TransactionID,
-		Menu:          domain.Menu,
+		MenuID:        domain.MenuID,
 		Quantity:      domain.Quantity,
 	}
 }
@@ -36,4 +42,12 @@ func ToDomains(u []TransactionDetails) []trDetails.Domain {
 		Domains = append(Domains, val.ToDomain())
 	}
 	return Domains
+}
+
+func ToListDomain(data []TransactionDetails) (result []trDetails.Domain) {
+	result = []trDetails.Domain{}
+	for _, val := range data {
+		result = append(result, val.ToDomain())
+	}
+	return result
 }

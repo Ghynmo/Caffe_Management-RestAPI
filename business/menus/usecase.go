@@ -26,7 +26,7 @@ func (uc *MenuUseCase) GetMenusController(ctx context.Context) ([]Domain, error)
 	return user, nil
 }
 
-func (uc *MenuUseCase) GetMenuByIDController(ctx context.Context, id uint) (Domain, error) {
+func (uc *MenuUseCase) GetMenuByIDController(ctx context.Context, id int) (Domain, error) {
 	user, err := uc.Repo.GetMenuByID(ctx, id)
 	if err != nil {
 		return Domain{}, err
@@ -53,7 +53,7 @@ func (uc *MenuUseCase) SaveApiController(ctx context.Context, data Domain) (Doma
 	return user, nil
 }
 
-func (uc *MenuUseCase) UpdateMenuController(ctx context.Context, data Domain, id uint) (Domain, error) {
+func (uc *MenuUseCase) UpdateMenuController(ctx context.Context, data Domain, id int) (Domain, error) {
 	user, err := uc.Repo.UpdateMenu(ctx, data, id)
 	if err != nil {
 		return Domain{}, err
@@ -62,7 +62,7 @@ func (uc *MenuUseCase) UpdateMenuController(ctx context.Context, data Domain, id
 	return user, nil
 }
 
-func (uc *MenuUseCase) DeleteMenuController(ctx context.Context, id uint) (Domain, error) {
+func (uc *MenuUseCase) DeleteMenuController(ctx context.Context, id int) (Domain, error) {
 	user, err := uc.Repo.DeleteMenu(ctx, id)
 	if err != nil {
 		return Domain{}, err

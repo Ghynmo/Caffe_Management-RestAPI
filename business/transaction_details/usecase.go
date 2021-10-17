@@ -36,7 +36,29 @@ func (uc *TransactionDetailUseCase) GetTransactionDetailByIDController(ctx conte
 	return user, nil
 }
 
-func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx context.Context, data []Domain) ([]Domain, error) {
+func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx context.Context, data Domain) (Domain, error) {
+	fmt.Println("Usecase", data)
+
+	result, err := uc.Repo.CreateTransactionDetail(ctx, data)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	fmt.Println("after DB", result)
+
+	return result, nil
+}
+
+func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id int) (Domain, error) {
+	user, err := uc.Repo.UpdateTransactionDetail(ctx, data, id)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	return user, nil
+}
+
+func (uc *TransactionDetailUseCase) CreateListTransactionDetailController(ctx context.Context, data []Domain) ([]Domain, error) {
 	var results []Domain
 	fmt.Println(data)
 
@@ -49,13 +71,4 @@ func (uc *TransactionDetailUseCase) CreateTransactionDetailController(ctx contex
 	}
 
 	return results, nil
-}
-
-func (uc *TransactionDetailUseCase) UpdateTransactionDetailController(ctx context.Context, data Domain, id int) (Domain, error) {
-	user, err := uc.Repo.UpdateTransactionDetail(ctx, data, id)
-	if err != nil {
-		return Domain{}, err
-	}
-
-	return user, nil
 }

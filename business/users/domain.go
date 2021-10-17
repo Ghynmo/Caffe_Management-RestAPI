@@ -7,7 +7,6 @@ import (
 
 type Domain struct {
 	ID        int
-	MemberID  int
 	Name      string
 	Email     string
 	Password  string
@@ -17,6 +16,7 @@ type Domain struct {
 	Point     int
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 type UseCase interface {

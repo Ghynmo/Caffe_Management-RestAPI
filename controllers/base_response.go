@@ -14,7 +14,7 @@ type BaseResponse struct {
 	Data interface{} `json:"data"`
 }
 
-type DeleteResponse struct {
+type MetaResponse struct {
 	Meta struct {
 		Status  int    `json:"status"`
 		Message string `json:"message"`
@@ -37,8 +37,15 @@ func NewErrorResponse(c echo.Context, status int, err error) error {
 	return c.JSON(status, response)
 }
 
+func UpdateSuccessResponse(c echo.Context, data interface{}) error {
+	response := MetaResponse{}
+	response.Meta.Status = http.StatusOK
+	response.Meta.Message = "Update Success"
+	return c.JSON(http.StatusOK, response)
+}
+
 func DeleteSuccessResponse(c echo.Context, data interface{}) error {
-	response := DeleteResponse{}
+	response := MetaResponse{}
 	response.Meta.Status = http.StatusOK
 	response.Meta.Message = "Delete Success"
 	return c.JSON(http.StatusOK, response)

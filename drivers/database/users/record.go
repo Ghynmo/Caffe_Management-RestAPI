@@ -6,13 +6,13 @@ import (
 )
 
 type Users struct {
-	ID        int `gorm:"primaryKey"`
-	Name      string
+	ID        int    `gorm:"primaryKey"`
+	Name      string `gorm:"not null"`
 	Email     string `gorm:"unique"`
-	Password  string
+	Password  string `gorm:"not null"`
 	Address   string
 	Phone     string
-	Point     int
+	Point     int `gorm:"default:0"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time

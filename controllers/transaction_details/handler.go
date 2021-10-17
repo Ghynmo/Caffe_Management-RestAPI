@@ -1,9 +1,10 @@
 package transaction_details
 
 import (
-	"fmt"
 	"miniProject/business/transaction_details"
 	"miniProject/controllers"
+	"miniProject/controllers/transaction_details/request"
+	"miniProject/controllers/transaction_details/responses"
 	"net/http"
 	"strconv"
 
@@ -27,7 +28,7 @@ func (handler TransactionDetailController) GetTransactionDetailsController(c ech
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, transaction_detail)
+	return controllers.NewSuccessResponse(c, responses.FromListDomain(transaction_detail))
 }
 
 func (handler TransactionDetailController) GetTransactionDetailByIDController(c echo.Context) error {
@@ -40,23 +41,21 @@ func (handler TransactionDetailController) GetTransactionDetailByIDController(c 
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, transaction_detail)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(transaction_detail))
 }
 
 func (handler TransactionDetailController) CreateTransactionDetailController(c echo.Context) error {
-	transaction_detailInsert := transaction_details.Domain{}
-	fmt.Println("Before Bind", transaction_detailInsert)
+	transaction_detailInsert := request.TransactionDetailCreate{}
 
 	c.Bind(&transaction_detailInsert)
-	fmt.Println("After Bind", transaction_detailInsert)
 
 	ctx := c.Request().Context()
 
-	transaction_detail, err := handler.TransactionDetailUseCase.CreateTransactionDetailController(ctx, transaction_detailInsert)
+	transaction_detail, err := handler.TransactionDetailUseCase.CreateTransactionDetailController(ctx, transaction_detailInsert.ToDomain())
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, transaction_detail)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(transaction_detail))
 }
 
 func (handler TransactionDetailController) UpdateTransactionDetailController(c echo.Context) error {
@@ -70,5 +69,5 @@ func (handler TransactionDetailController) UpdateTransactionDetailController(c e
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, transaction_detail)
+	return controllers.UpdateSuccessResponse(c, responses.FromDomain(transaction_detail))
 }

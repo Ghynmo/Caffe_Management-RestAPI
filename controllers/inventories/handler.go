@@ -3,6 +3,8 @@ package inventories
 import (
 	"miniProject/business/inventories"
 	"miniProject/controllers"
+	"miniProject/controllers/inventories/request"
+	"miniProject/controllers/inventories/responses"
 	"net/http"
 	"strconv"
 
@@ -26,7 +28,7 @@ func (handler InventoryController) GetInventoriesController(c echo.Context) erro
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, inventory)
+	return controllers.NewSuccessResponse(c, responses.FromListDomain(inventory))
 }
 
 func (handler InventoryController) GetInventoryByIDController(c echo.Context) error {
@@ -39,34 +41,34 @@ func (handler InventoryController) GetInventoryByIDController(c echo.Context) er
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, inventory)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(inventory))
 }
 
 func (handler InventoryController) CreateInventoryController(c echo.Context) error {
-	inventoryInsert := inventories.Domain{}
+	inventoryInsert := request.InventoryInsert{}
 	c.Bind(&inventoryInsert)
 
 	ctx := c.Request().Context()
 
-	inventory, err := handler.InventoryUseCase.CreateInventoryController(ctx, inventoryInsert)
+	inventory, err := handler.InventoryUseCase.CreateInventoryController(ctx, inventoryInsert.ToDomain())
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, inventory)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(inventory))
 }
 
 func (handler InventoryController) UpdateInventoryController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	inventoryInsert := inventories.Domain{}
+	inventoryInsert := request.InventoryInsert{}
 	c.Bind(&inventoryInsert)
 
 	ctx := c.Request().Context()
-	inventory, err := handler.InventoryUseCase.UpdateInventoryController(ctx, inventoryInsert, id)
+	inventory, err := handler.InventoryUseCase.UpdateInventoryController(ctx, inventoryInsert.ToDomain(), id)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, inventory)
+	return controllers.UpdateSuccessResponse(c, responses.FromDomain(inventory))
 }
 
 func (handler InventoryController) DeleteInventoryController(c echo.Context) error {
@@ -77,5 +79,5 @@ func (handler InventoryController) DeleteInventoryController(c echo.Context) err
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, inventory)
+	return controllers.DeleteSuccessResponse(c, responses.FromDomain(inventory))
 }

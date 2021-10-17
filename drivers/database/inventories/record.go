@@ -6,11 +6,11 @@ import (
 )
 
 type Inventories struct {
-	ID          int `gorm:"primaryKey"`
-	Name        string
-	Stock       int
+	ID          int    `gorm:"primaryKey"`
+	Name        string `gorm:"unique;not null"`
+	Stock       int    `gorm:"default:0"`
 	MeasureType string
-	UnitPrice   int
+	UnitPrice   int `gorm:"default:0"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   time.Time

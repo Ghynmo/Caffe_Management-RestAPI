@@ -3,6 +3,8 @@ package tables
 import (
 	"miniProject/business/tables"
 	"miniProject/controllers"
+	"miniProject/controllers/tables/request"
+	"miniProject/controllers/tables/responses"
 	"net/http"
 	"strconv"
 
@@ -26,7 +28,7 @@ func (handler TableController) GetTablesController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, table)
+	return controllers.NewSuccessResponse(c, responses.FromListDomain(table))
 }
 
 func (handler TableController) GetTableByIDController(c echo.Context) error {
@@ -39,34 +41,34 @@ func (handler TableController) GetTableByIDController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, table)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(table))
 }
 
 func (handler TableController) CreateTableController(c echo.Context) error {
-	tableInsert := tables.Domain{}
+	tableInsert := request.TableInsert{}
 	c.Bind(&tableInsert)
 
 	ctx := c.Request().Context()
 
-	table, err := handler.TableUseCase.CreateTableController(ctx, tableInsert)
+	table, err := handler.TableUseCase.CreateTableController(ctx, tableInsert.ToDomain())
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, table)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(table))
 }
 
 func (handler TableController) UpdateTableController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	tableInsert := tables.Domain{}
+	tableInsert := request.TableInsert{}
 	c.Bind(&tableInsert)
 
 	ctx := c.Request().Context()
-	table, err := handler.TableUseCase.UpdateTableController(ctx, tableInsert, int(id))
+	table, err := handler.TableUseCase.UpdateTableController(ctx, tableInsert.ToDomain(), int(id))
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, table)
+	return controllers.UpdateSuccessResponse(c, responses.FromDomain(table))
 }
 
 func (handler TableController) DeleteTableController(c echo.Context) error {
@@ -77,5 +79,5 @@ func (handler TableController) DeleteTableController(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, table)
+	return controllers.DeleteSuccessResponse(c, responses.FromDomain(table))
 }

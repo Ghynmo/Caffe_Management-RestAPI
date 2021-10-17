@@ -1,7 +1,6 @@
 package users
 
 import (
-	"fmt"
 	"miniProject/business/users"
 	"miniProject/controllers"
 	"miniProject/controllers/users/request"
@@ -58,12 +57,12 @@ func (handler UserController) GetUserByIDController(c echo.Context) error {
 }
 
 func (handler UserController) CreateUserController(c echo.Context) error {
-	userInsert := users.Domain{}
+	userInsert := request.UserInsert{}
 	c.Bind(&userInsert)
-	fmt.Println(userInsert)
+
 	ctx := c.Request().Context()
 
-	user, err := handler.UserUseCase.CreateUserController(ctx, userInsert)
+	user, err := handler.UserUseCase.CreateUserController(ctx, userInsert.ToDomain())
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
@@ -73,15 +72,15 @@ func (handler UserController) CreateUserController(c echo.Context) error {
 func (handler UserController) UpdateUserController(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	userInsert := users.Domain{}
+	userInsert := request.UserInsert{}
 	c.Bind(&userInsert)
 
 	ctx := c.Request().Context()
-	user, err := handler.UserUseCase.UpdateUserController(ctx, userInsert, id)
+	user, err := handler.UserUseCase.UpdateUserController(ctx, userInsert.ToDomain(), id)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, responses.FromDomain(user))
+	return controllers.UpdateSuccessResponse(c, responses.FromDomain(user))
 }
 
 func (handler UserController) DeleteUserController(c echo.Context) error {

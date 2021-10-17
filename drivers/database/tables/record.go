@@ -6,9 +6,9 @@ import (
 )
 
 type Tables struct {
-	ID        int `gorm:"primaryKey"`
-	Capacity  int
-	Status    bool
+	ID        int  `gorm:"primaryKey"`
+	Capacity  int  `gorm:"not null"`
+	Status    bool `gorm:"default:false"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

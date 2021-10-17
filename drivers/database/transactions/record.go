@@ -8,10 +8,10 @@ import (
 )
 
 type Transactions struct {
-	ID        int `gorm:"primaryKey"`
-	UserID    int
-	Price     int
-	Status    bool
+	ID        int             `gorm:"primaryKey"`
+	UserID    int             `gorm:"not null"`
+	Price     int             `gorm:"default:0"`
+	Status    bool            `gorm:"default:false"`
 	User      users.Users     `gorm:"foreignKey:UserID"`
 	Table     []tables.Tables `gorm:"many2many:transaction_tablenum"`
 	CreatedAt time.Time

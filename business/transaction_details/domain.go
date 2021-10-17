@@ -14,6 +14,7 @@ type Domain struct {
 	Quantity      int
 	Transaction   transactions.Domain
 	Menus         menus.Domain
+	Name          string
 }
 
 type UseCase interface {

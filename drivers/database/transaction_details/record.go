@@ -7,12 +7,12 @@ import (
 )
 
 type TransactionDetails struct {
-	ID            int `gorm:"primaryKey"`
-	TransactionID int
+	ID            int                       `gorm:"primaryKey"`
+	TransactionID int                       `gorm:"not null"`
 	Transaction   transactions.Transactions `gorm:"foreignKey:TransactionID"`
 	MenuID        int
 	Menu          menus.Menus `gorm:"foreignKey:MenuID"`
-	Quantity      int
+	Quantity      int         `gorm:"default:0"`
 }
 
 func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
@@ -24,6 +24,7 @@ func (trDetail *TransactionDetails) ToDomain() trDetails.Domain {
 		Menu:          trDetail.Menu.Name,
 		Menus:         trDetail.Menu.ToDomain(),
 		Quantity:      trDetail.Quantity,
+		Name:          trDetail.Transaction.User.Name,
 	}
 }
 

@@ -6,11 +6,11 @@ import (
 )
 
 type Menus struct {
-	ID        int `gorm:"primaryKey"`
-	Name      string
+	ID        int    `gorm:"primaryKey"`
+	Name      string `gorm:"unique;not null"`
 	Category  string
-	Price     int
-	Stock     int
+	Price     int `gorm:"default:0"`
+	Stock     int `gorm:"default:0"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time

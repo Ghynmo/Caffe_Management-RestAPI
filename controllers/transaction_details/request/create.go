@@ -8,6 +8,14 @@ type TransactionDetailCreate struct {
 	Quantity      int `json:"quantity"`
 }
 
+func (transaction_detail *TransactionDetailCreate) ToDomain() transaction_details.Domain {
+	return transaction_details.Domain{
+		TransactionID: transaction_detail.TransactionID,
+		MenuID:        transaction_detail.MenuID,
+		Quantity:      transaction_detail.Quantity,
+	}
+}
+
 func (tr *TransactionDetailCreate) CreateToDomain() transaction_details.Domain {
 	return transaction_details.Domain{
 		TransactionID: tr.TransactionID,

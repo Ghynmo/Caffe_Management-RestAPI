@@ -28,7 +28,7 @@ func (handler TransactionDetailController) GetTransactionDetailsController(c ech
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccessResponse(c, responses.FromListDomain(transaction_detail))
+	return controllers.NewSuccessResponse(c, transaction_detail)
 }
 
 func (handler TransactionDetailController) GetTransactionDetailByIDController(c echo.Context) error {
